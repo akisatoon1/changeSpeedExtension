@@ -67,7 +67,7 @@ document.addEventListener("yt-navigate-finish", () => {
 
                 // プロパティの存在判定
                 if (items.hasOwnProperty(data.videoID)) {
-                    resolve(items[data.videoId]);
+                    resolve(items[data.videoID]);
                 }
                 else {
                     resolve(null);
