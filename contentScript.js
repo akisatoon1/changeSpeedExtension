@@ -44,6 +44,21 @@ function SetData() {
 
 }
 
+// 登録済みかどうか判定
+function isResistered(videoID) {
+
+    // クラウドデータ全て取得
+    chrome.storage.sync.get(null, (items) => {
+        // プロパティの存在判定
+        if (items.hasOwnProperty(videoID)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    })
+}
+
 // object生成先
 let data = null;
 
@@ -59,19 +74,18 @@ document.addEventListener("yt-navigate-finish", () => {
         // ページデータ初期化
         data = new SetData();
 
-        // クラウドデータを取得する
-        chrome.storage.sync.get(null, (items) => {
+        // 登録済みならtrue
+        // 未登録ならfalse
+        const status = isResistered(data.videoID);
 
-            // 登録済みの時
-            if (items.hasOwnProperty(data.videoID)) {
+        // 登録済みの時
+        if (status) {
 
-                // 現在のスピードを更新
-                data.currentSpeed = items[data.videoID].speed;
+            // 現在のスピードを更新
+            data.currentSpeed = items[data.videoID].speed;
 
-                changeVideoSpeed(data.currentSpeed);
-
-            }
-        })
+            changeVideoSpeed(data.currentSpeed);
+        }
     }
 });
 
@@ -83,7 +97,12 @@ chrome.runtime.onMessage.addListener(
         // 動画再生ページの時
         if (isVideoPage()) {
 
+            // videoのタイトル
             const videoTitle = document.querySelector("h1.style-scope.ytd-watch-metadata").querySelector("yt-formatted-string").innerHTML;
+
+            // 登録済みならtrue
+            // 未登録ならfalse
+            const status = isResistered(data.videoID);
 
             // 記録ボタンのとき
             if (message.action == "memory") {
@@ -91,44 +110,55 @@ chrome.runtime.onMessage.addListener(
                 // 現在のスピードを更新
                 data.currentSpeed = document.querySelector("video").playbackRate;
 
-                // クラウドデータを取得
-                chrome.storage.sync.get(null, (items) => {
+                // 登録済みの時
+                if (status) {
 
-                    //  登録済みの時
-                    if (items.hasOwnProperty(data.videoID)) {
+                    // クラウドデータ更新
+                    chrome.storage.sync.set({ [data.videoID]: { "videoTitle": videoTitle, "speed": data.currentSpeed } }, () => {
 
-                        chrome.storage.sync.set({ [data.videoID]: { "videoTitle": videoTitle, "speed": data.currentSpeed } }, () => {
+                        const alertMessage = `再生速度-- ${data.currentSpeed} --を更新。`;
 
-                            const alertMessage = `再生速度-- ${data.currentSpeed} --を更新。`;
+                        alert(alertMessage);
+                    });
+                }
 
-                            alert(alertMessage);
-                        });
-                    }
+                // 未登録の時
+                else {
 
-                    // 未登録の時
-                    else {
+                    // クラウドデータ新規登録
+                    chrome.storage.sync.set({ [data.videoID]: { "videoTitle": videoTitle, "note": "", "speed": data.currentSpeed } }, () => {
 
-                        chrome.storage.sync.set({ [data.videoID]: { "videoTitle": videoTitle, "note": "", "speed": data.currentSpeed } }, () => {
+                        const alertMessage = `再生速度-- ${data.currentSpeed} --を登録。`;
 
-                            const alertMessage = `再生速度-- ${data.currentSpeed} --を登録。`;
-
-                            alert(alertMessage);
-                        });
-                    }
-                });
+                        alert(alertMessage);
+                    });
+                }
             }
 
             // 削除ボタンのとき
             if (message.action == "delete") {
 
-                // クラウドデータを削除
-                chrome.storage.sync.remove(data.videoID, () => {
+                // 登録済みの時
+                if (status) {
 
-                    const alertMessage = `-- ${videoTitle} --の記録を削除。`;
+                    // クラウドデータを削除
+                    chrome.storage.sync.remove(data.videoID, () => {
+
+                        const alertMessage = `-- ${videoTitle} --の記録を削除。`;
+
+                        alert(alertMessage);
+                    });
+                }
+
+                // 未登録の時
+                else {
+
+                    const alertMessage = "この動画は、まだ登録されていません。";
 
                     alert(alertMessage);
+                }
 
-                });
+
             }
         }
 
@@ -136,7 +166,6 @@ chrome.runtime.onMessage.addListener(
         else {
 
             alert("動画が再生されているページで行ってください。");
-
         }
     }
 );
