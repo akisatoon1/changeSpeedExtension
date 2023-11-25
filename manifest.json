@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "再生速度記憶マシーン",
+    "version": "1.0.0",
+    "description": "書くのめんどい",
+    "author": {
+        "email": "akisatoon@gmail.com"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "storage"
+    ],
+    "options_page": "options.html",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.youtube.com/*"
+            ],
+            "js": [
+                "contentScript.js"
+            ]
+        }
+    ]
+}
