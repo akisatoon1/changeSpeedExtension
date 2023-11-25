@@ -3,7 +3,8 @@ chrome.storage.sync.get(null, (items) => {
     for (key of Object.keys(items)) {
 
     }
-
+    let ele = document.createElement("div");
+    ele.innerHTML = "test"
     // debug用
     // クラウドデータ
     console.log(items);
