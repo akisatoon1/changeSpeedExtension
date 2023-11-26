@@ -166,7 +166,11 @@ chrome.runtime.onMessage.addListener(
 
                             const alertMessage = `-- ${videoTitle} --の記録を削除。`;
 
+                            const currentURL = location.href;
+
                             alert(alertMessage);
+
+                            location.href = currentURL;
                         });
                     }
 

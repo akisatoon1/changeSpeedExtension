@@ -18,6 +18,7 @@ function sendMessage(status) {
 // スピード記録ボタン
 document.querySelector("#memory").addEventListener("click", (event) => {
 
+    // htmlの時は大文字になる
     if (event.target.tagName == "BUTTON") {
 
         sendMessage("memory");
@@ -28,6 +29,7 @@ document.querySelector("#memory").addEventListener("click", (event) => {
 // 記録削除ボタン
 document.querySelector("#delete").addEventListener("click", (event) => {
 
+    // htmlの時は大文字になる
     if (event.target.tagName == "BUTTON") {
 
         sendMessage("delete");
@@ -37,6 +39,7 @@ document.querySelector("#delete").addEventListener("click", (event) => {
 // 設定画面ボタン
 document.querySelector('#go-to-options').addEventListener('click', (event) => {
 
+    // htmlの時は大文字になる
     if (event.target.tagName == "BUTTON") {
 
         if (chrome.runtime.openOptionsPage) {

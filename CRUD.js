@@ -16,6 +16,7 @@ function removeData(videoID) {
 
 document.addEventListener("click", (event) => {
 
+    //htmlの時は大文字になる
     if (event.target.tagName == "BUTTON") {
 
         const videoID = event.target.dataset.videoid;
