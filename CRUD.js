@@ -16,7 +16,7 @@ function removeData(videoID) {
 
 document.addEventListener("click", (event) => {
 
-    if (event.target.tagName == "button") {
+    if (event.target.tagName == "BUTTON") {
 
         const videoID = event.target.dataset.videoid;
 
