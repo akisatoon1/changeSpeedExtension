@@ -1,5 +1,5 @@
 function sendMessage(status) {
-    chrome.tabs.query(
+    /*chrome.tabs.query(
         {
             active: true,
             currentWindow: true
@@ -8,6 +8,19 @@ function sendMessage(status) {
             chrome.tabs.sendMessage(
                 tabs[0].id, { "action": status }
             );
+        }
+    );*/
+    chrome.tabs.query(
+        {
+            active: true,
+            currentWindow: true
+        },
+        (tabs) => {
+            chrome.tabs.sendMessage(
+                tabs[0].id, { "action": status }
+            ).catch(() => {
+                alert("エラー！！。動画再生ページで操作を行ってください。")
+            });
         }
     );
 }
