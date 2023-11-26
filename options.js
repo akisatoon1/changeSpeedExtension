@@ -6,16 +6,19 @@ function addUserData(key, item) {
     // ユーザーデータを代入
     const [videoID, videoTitle, speed, note] = [key, item.videoTitle, item.speed, item.note]
 
-    const theadEle = document.querySelector("table#userData");
+    const tableEle = document.querySelector("table#userData");
 
     const tbodyEle = document.createElement("tbody");
+
+    tbodyEle.setAttribute("id", key);
 
     tbodyEle.innerHTML = `<th class="videoID">${videoID}</th>
     <td class="videoTitle">${videoTitle}</td>
     <td class="speed">${speed}</td>
-    <td class="note">${note}</td>`;
+    <td class="note">${note}</td>
+    <td class="button"><button>削除</button></td>`;
 
-    theadEle.appendChild(tbodyEle);
+    tableEle.appendChild(tbodyEle);
 }
 
 if (document.readyState === "loading") {
