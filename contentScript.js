@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener(
                     else {
 
                         // クラウドデータ新規登録
-                        chrome.storage.sync.set({ [data.videoID]: { "videoTitle": videoTitle, "note": "", "speed": data.currentSpeed } }, () => {
+                        chrome.storage.sync.set({ [data.videoID]: { "videoTitle": videoTitle, "note": "なし", "speed": data.currentSpeed } }, () => {
 
                             const alertMessage = `再生速度-- ${data.currentSpeed} --を登録。`;
 
