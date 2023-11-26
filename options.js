@@ -10,13 +10,13 @@ function addUserData(key, item) {
 
     const tbodyEle = document.createElement("tbody");
 
-    tbodyEle.setAttribute("id", key);
+    tbodyEle.setAttribute("id", videoID);
 
     tbodyEle.innerHTML = `<th class="videoID">${videoID}</th>
     <td class="videoTitle">${videoTitle}</td>
     <td class="speed">${speed}</td>
     <td class="note">${note}</td>
-    <td class="button"><button>削除</button></td>`;
+    <td class="button"><button data-videoid="${videoID}">削除</button></td>`;
 
     tableEle.appendChild(tbodyEle);
 }

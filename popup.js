@@ -1,15 +1,5 @@
 function sendMessage(status) {
-    /*chrome.tabs.query(
-        {
-            active: true,
-            currentWindow: true
-        },
-        (tabs) => {
-            chrome.tabs.sendMessage(
-                tabs[0].id, { "action": status }
-            );
-        }
-    );*/
+
     chrome.tabs.query(
         {
             active: true,
@@ -24,24 +14,39 @@ function sendMessage(status) {
         }
     );
 }
-function memory() {
-    sendMessage("memory");
-}
-function deletE() {
-    sendMessage("delete");
-}
 
 // スピード記録ボタン
-document.querySelector("#memory").addEventListener("click", memory);
+document.querySelector("#memory").addEventListener("click", (event) => {
+
+    if (event.target.tagName == "button") {
+
+        sendMessage("memory");
+
+    }
+});
 
 // 記録削除ボタン
-document.querySelector("#delete").addEventListener("click", deletE);
+document.querySelector("#delete").addEventListener("click", (event) => {
+
+    if (event.target.tagName == "button") {
+
+        sendMessage("delete");
+    }
+});
 
 // 設定画面ボタン
-document.querySelector('#go-to-options').addEventListener('click', function () {
-    if (chrome.runtime.openOptionsPage) {
-        chrome.runtime.openOptionsPage();
-    } else {
-        window.open(chrome.runtime.getURL('options.html'));
+document.querySelector('#go-to-options').addEventListener('click', (event) => {
+
+    if (event.target.tagName == "button") {
+
+        if (chrome.runtime.openOptionsPage) {
+
+            chrome.runtime.openOptionsPage();
+        }
+
+        else {
+
+            window.open(chrome.runtime.getURL('options.html'));
+        }
     }
 });
