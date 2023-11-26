@@ -17,8 +17,14 @@ function memory() {
 function deletE() {
     sendMessage("delete");
 }
+
+// スピード記録ボタン
 document.querySelector("#memory").addEventListener("click", memory);
+
+// 記録削除ボタン
 document.querySelector("#delete").addEventListener("click", deletE);
+
+// 設定画面ボタン
 document.querySelector('#go-to-options').addEventListener('click', function () {
     if (chrome.runtime.openOptionsPage) {
         chrome.runtime.openOptionsPage();
@@ -26,8 +32,3 @@ document.querySelector('#go-to-options').addEventListener('click', function () {
         window.open(chrome.runtime.getURL('options.html'));
     }
 });
-/*document.querySelector("#test").addEventListener("click", () => {
-    chrome.storage.sync.get(null, (items) => {
-        console.log(items);
-    });
-});*/
